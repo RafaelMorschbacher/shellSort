@@ -1,12 +1,15 @@
 import time
 file_read = open('entrada1.txt', 'r')
 read = file_read.readlines()
+file_read_2 = open('entrada2.txt', 'r')
+read_2 = file_read.readlines()
+
 lists = [] # lists = array de arrays: cada array é uma lista para ser ordenada
+lists_2 = []
+
 file_out = open("saida.txt", "w")
 file_times = open("saida_2.txt", "w")
 
-#myArray = [22, 34, 13, 12, 9, 1, 11, 5, 8, 3, 4, 6, 2, 30, 0, 82]
-#myArray = [3, 10, 2, 4]
 
 #----------- FILE TREATMENT ------------
 for line in read:
@@ -19,6 +22,17 @@ for line in read:
     #guarda lista pronta em lists
     numbersList.pop(0) #remover primeiro elemento (comprimento do array)
     lists.append(numbersList)
+
+for line in read_2:
+    numbersList = [] #lista auxiliar
+    cleanLine = line.strip() #remove \n da linha
+    characterList = cleanLine.split() #transforma linha em array de chars
+    #coloca chars como números em lista auxiliar
+    for character in characterList:
+        numbersList.append(int(character))
+    #guarda lista pronta em lists
+    numbersList.pop(0) #remover primeiro elemento (comprimento do array)
+    lists_2.append(numbersList)
 
 
 #----------- INSERTION SORT ------------
@@ -45,7 +59,7 @@ def write_array(array, file):
         file.write(str(num))
         file.write(', ')
 
-def shellSortPow2(arr):
+def shellSortPow2(arr, output_type):
     start_time = time.time()
     array = arr.copy()
     write_array(array, file_out)
@@ -65,13 +79,16 @@ def shellSortPow2(arr):
                 array[j] = array[j - h]
                 j -= h
             array[j] = temp
-        
-        write_array(array, file_out)
-        file_out.write(" INC={}\n".format(h))
-        
+
+        if output_type == 1:
+            write_array(array, file_out)
+            file_out.write(" INC={}\n".format(h))
+
         h //= 2
+
     total_time = time.time() - start_time
-    file_times.write(" SHELL, {}, {}\n".format(n, total_time))
+    if output_type == 2:
+        file_times.write(" SHELL, {}, {}\n".format(n, total_time))
 
 def shellSortKnuth(arr):
     start_time = time.time()
@@ -150,10 +167,12 @@ def shellSortCiura(arr):
 
 # #SHELL TIMER
 for singleList in lists:
-    shellSortPow2(singleList)
-    shellSortKnuth(singleList)
-    shellSortCiura(singleList)
+    shellSortPow2(singleList, 1)
+    #shellSortKnuth(singleList)
+    #shellSortCiura(singleList)
 
+for singleList in lists_2:
+    shellSortPow2(singleList, 2)
 
 
 #----------- FILE WRITE ------------
