@@ -8,8 +8,8 @@ read_2 = file_read_2.readlines()
 lists = []  # lists = array de arrays: cada array é uma lista para ser ordenada
 lists_2 = []
 
-file_out = open("saida.txt", "w")
-file_times = open("saida_2.txt", "w")
+file_out = open("saida1.txt", "w")
+file_times = open("saida2.txt", "w")
 
 # ----------- FILE TREATMENT ------------
 for line in read:
